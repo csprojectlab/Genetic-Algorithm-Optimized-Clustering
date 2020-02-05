@@ -48,14 +48,22 @@ function setup () {
     createCanvas (800, 800);    
     // network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
     network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ();
+   
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
     // clustering ();
 }
 
 
-
 function draw () {
+    background(0);
+    pop.display();
+
+    stroke(255, 0, 0);
+    ellipse(X + W / 2, Y + H / 2, 3*15);
+}
+
+function draw1 () {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")

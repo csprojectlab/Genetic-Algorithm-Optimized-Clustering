@@ -52,47 +52,39 @@ class Network {
             let y = radius * sin (r) + center.y;
             this.nodes.push (new Node (x, y, this.eAdv / this.adv, NODE_TYPE.ADV));
         }
-
-        for (let i = 0; i < this.nrm; i++) {
+        for (let i = 0; i < this.int; i++) {
             let valid = false
             while (!valid) {
                 let x = random (X, X + W);
                 let y = random (Y, Y + H);
                 if (dist (center.x, center.y, x, y) > radius) {
                     valid = true;
-                    this.nodes.push (new Node (x, y, this.eNrm / this.nrm, NODE_TYPE.NRM));
+                    // this.nodes.push (new Node (x, y, this.eNrm / this.nrm, NODE_TYPE.NRM));
+                    this.nodes.push (new Node (x, y, this.eInt / this.int, NODE_TYPE.INT));
                 }
             }
         }
-
-        let normalNodes = [];
-        for (let i = this.adv; i < this.nodes.length; i++)
-            normalNodes.push ({I: i, INT_NODE: false})
-        // for (let i = 0; i < this.int; i++) {
-        //     let valid = false
-        //     while (!valid) {
-        //         let x = random (X, X + W);
-        //         let y = random (Y, Y + H);
-        //         if (dist (center.x, center.y, x, y) > radius) {
-        //             let foundInRange = false;
-        //             normalNodes.forEach (obj => {
-        //                 let d = dist (x, y, this.nodes[obj.I].pos.x, this.nodes[obj.I].pos.y);
-        //                 if (d < NRM_CONFLICT_RANGE && obj.INT_NODE)
-        //                     foundInRange = true;
-        //             })
-        //             if (!foundInRange) {
-        //                 normalNodes.forEach (obj => {
-        //                     let d = dist (x, y, this.nodes[obj.I].pos.x, this.nodes[obj.I].pos.y);
-        //                     if (d < NRM_CONFLICT_RANGE) {
-        //                         obj.INT_NODE = true;
-        //                         valid = true;
-        //                         this.nodes.push (x, y, this.eInt / this.int, NODE_TYPE.INT)
-        //                     }
-        //                 })
-        //             }
-        //         }
-        //     }
-        // }
+        let size = this.nodes.length;
+        for (let i = 0; i < this.nrm; i++) {
+            let valid = false;
+            while (!valid) {
+                console.log("1")
+                let x = random (X, X + W);
+                let y = random (Y, Y + H);
+                if (dist (center.x, center.y, x, y) > radius) {         // Out of range of advanced nodes
+                    // If normal node conflict with 3 intermediate nodes then reject it
+                    let count = 0;
+                    for (let j = this.int; j < size; j++) {
+                        if (dist (x, y, this.nodes[j].pos.x, this.nodes[j].pos.y) < NRM_CONFLICT_RANGE)
+                            count++;
+                    }
+                    if (count <= 3) {
+                        valid = true;
+                        this.nodes.push (new Node (x, y, this.eNrm / this.nrm, NODE_TYPE.NRM));
+                    }
+                }
+            }
+        }
         return this;
     }
 

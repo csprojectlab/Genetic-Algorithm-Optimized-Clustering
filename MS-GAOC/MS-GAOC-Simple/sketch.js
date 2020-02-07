@@ -49,11 +49,11 @@ function setup () {
         network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    clustering ();
+    // clustering ();
 }
 
 
-function draw1 () {
+function draw () {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")

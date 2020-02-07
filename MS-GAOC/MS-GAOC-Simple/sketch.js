@@ -40,18 +40,20 @@ let network = null;
 let pop = null;
 let iterations = 30;
 let it = 0;
-
+let deploymentStrategy = false;
 function setup () {
     createCanvas (800, 800);    
-    // network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
-    network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ();
+    if (deploymentStrategy)
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ();
+    else 
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    // clustering ();
+    clustering ();
 }
 
 
-function draw () {
+function draw1 () {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")
@@ -99,10 +101,14 @@ function energyModel () {
         while (true) {
             r++;
             d.evanesce (obj.C, obj.NCN); 
+            if (r % 200 == 0) {
+                storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
+            }
             let currentDeadCount = network.nodes.filter(node => node.resEnergy <= 0).length;
             if (currentDeadCount != deadCount) {
                 deadCount = currentDeadCount;
                 console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
+                storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
                 RadioConsumptionModel.nprob += 0.1;
                 RadioConsumptionModel.cprob += 0.01;
                 break;

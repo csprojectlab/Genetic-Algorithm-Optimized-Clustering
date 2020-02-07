@@ -40,11 +40,13 @@ let network = null;
 let pop = null;
 let iterations = 30;
 let it = 0;
-
+let deploymentStrategy = false;
 function setup () {
     createCanvas (800, 800);    
-    network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
-    // network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ();
+    if (deploymentStrategy)
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ();
+    else
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
     clustering ();

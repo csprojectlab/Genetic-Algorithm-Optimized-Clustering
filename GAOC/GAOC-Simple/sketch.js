@@ -47,11 +47,11 @@ function setup () {
     // network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ();
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    // clustering ();
+    clustering ();
 }
 
 
-function draw () {
+function draw1 () {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")
@@ -86,7 +86,7 @@ function clustering () {
             pop.calFitness ().fittest ().evolve ();
         } else {
             console.log("FINISHED! Data Packets Sent: ", RadioConsumptionModel.dataPacketSent)
-            console.log(roundsArray, deadNodesArray, aliveNodesArray, energyArray, dataPacketsArray)
+            // console.log(roundsArray, deadNodesArray, aliveNodesArray, energyArray, dataPacketsArray)
             break;
         }
     }
@@ -102,46 +102,17 @@ function energyModel () {
             r++;
             d.evanesce (obj.C, obj.NCN); 
             if (r % 200 == 0) {
-                storeResult (r, deadCount, network.calNetEnergy())
+                storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
             }
             let currentDeadCount = network.nodes.filter(node => node.resEnergy <= 0).length;
             if (currentDeadCount != deadCount) {
                 deadCount = currentDeadCount;
                 console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
                 if (deadCount == N)
-                    storeResult (r, deadCount, network.calNetEnergy())
+                storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
                 RadioConsumptionModel.nprob += 0.1;
                 RadioConsumptionModel.cprob += 0.04;
                 break;
             }
         }
-}
-
-// For recording the results
-let roundsArray = [];
-let deadNodesArray = [];
-let aliveNodesArray = [];
-let energyArray = [];
-let dataPacketsArray = [];
-
-function storeResult (rounds, deadNodes, energy) {
-    roundsArray.push (rounds)
-    deadNodesArray.push (deadNodes)
-    aliveNodesArray.push (N - deadNodes)
-    energyArray.push (energy < 0 ? 0 : energy)
-    dataPacketsArray.push (RadioConsumptionModel.dataPacketSent)
-}
-
-
-function downloadCSV () {
-    let csv = "Rounds,Dead,Alive,Energy,PacketSent\n";
-    for (let i = 0; i < roundsArray.length; i++) {
-        csv += roundsArray[i] + "," + deadNodesArray[i] + "," + aliveNodesArray[i] + "," + energyArray[i] + "," + dataPacketsArray[i];
-        csv += "\n"
-    }
-    var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-    hiddenElement.target = '_blank';
-    hiddenElement.download = 'people.csv';
-    hiddenElement.click();
 }

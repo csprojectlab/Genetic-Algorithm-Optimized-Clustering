@@ -8,6 +8,15 @@ class Chromosome {
         return this;
     }
 
+    countClusterHeads () {
+        let count = 0;
+        this.genes.forEach ((gene, index) => {
+            if (gene && network.nodes[index].resEnergy > 0)
+                count++;
+        });
+        return count;
+    }
+
     copy () {
         let obj = new Chromosome ();
         obj.genes = this.genes.slice ();

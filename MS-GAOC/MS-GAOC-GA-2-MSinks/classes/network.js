@@ -53,6 +53,50 @@ class Network {
         return this;
     }
 
+    deploymentStrategy (radius) {
+        let center = createVector (X + W / 2, Y + H / 2);
+        for (let i = 0; i < this.adv; i++) {
+            let r = random (0, TWO_PI);
+            let x = radius * cos (r) + center.x;
+            r = random (0, TWO_PI)
+            let y = radius * sin (r) + center.y;
+            this.nodes.push (new Node (x, y, this.eAdv / this.adv, NODE_TYPE.ADV));
+        }
+        for (let i = 0; i < this.int; i++) {
+            let valid = false
+            while (!valid) {
+                let x = random (X, X + W);
+                let y = random (Y, Y + H);
+                if (dist (center.x, center.y, x, y) > radius) {
+                    valid = true;
+                    // this.nodes.push (new Node (x, y, this.eNrm / this.nrm, NODE_TYPE.NRM));
+                    this.nodes.push (new Node (x, y, this.eInt / this.int, NODE_TYPE.INT));
+                }
+            }
+        }
+        let size = this.nodes.length;
+        for (let i = 0; i < this.nrm; i++) {
+            let valid = false;
+            while (!valid) {
+                let x = random (X, X + W);
+                let y = random (Y, Y + H);
+                if (dist (center.x, center.y, x, y) > radius) {         // Out of range of advanced nodes
+                    // If normal node conflict with 3 intermediate nodes then reject it
+                    let count = 0;
+                    for (let j = this.int; j < size; j++) {
+                        if (dist (x, y, this.nodes[j].pos.x, this.nodes[j].pos.y) < NRM_CONFLICT_RANGE)
+                            count++;
+                    }
+                    if (count <= 1) {
+                        valid = true;
+                        this.nodes.push (new Node (x, y, this.eNrm / this.nrm, NODE_TYPE.NRM));
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
     generateDistMatrix () {
         this.nodeDistance = Utils.calDistMatrix (this.nodes, this.nodes);
         this.sinkDistance = Utils.calDistMatrix (this.nodes, this.sinks);

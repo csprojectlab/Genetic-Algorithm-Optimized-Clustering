@@ -30,6 +30,7 @@ const N = 100;    // can be 200 in another scenario
 const POP_SIZE = 30;
 const CROSSOVER_RATE = 0.6;
 const MUTATION_RATE = 0.006;
+const NRM_CONFLICT_RANGE = 15;
 const VICINITY = 25;        // This is the radius
 const VARPHI = 0.3;     // Fitness co-efficients
 const DELTA = 0.3;
@@ -42,7 +43,8 @@ let it = 0;
 
 function setup () {
     createCanvas (800, 800);    
-    network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
+    // network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
+    network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ();
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
     // clustering ();

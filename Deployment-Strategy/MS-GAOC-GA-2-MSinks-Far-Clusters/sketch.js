@@ -55,15 +55,12 @@ function setup () {
 }
 
 
-function draw () {
+function draw1 () {
     background(0);
     pop.display();
-
-    stroke(255, 0, 0);
-    ellipse(X + W / 2, Y + H / 2, 3*15);
 }
 
-function draw1 () {
+function draw () {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")

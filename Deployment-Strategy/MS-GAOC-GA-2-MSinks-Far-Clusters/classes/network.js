@@ -68,7 +68,6 @@ class Network {
         for (let i = 0; i < this.nrm; i++) {
             let valid = false;
             while (!valid) {
-                console.log("1")
                 let x = random (X, X + W);
                 let y = random (Y, Y + H);
                 if (dist (center.x, center.y, x, y) > radius) {         // Out of range of advanced nodes
@@ -78,7 +77,7 @@ class Network {
                         if (dist (x, y, this.nodes[j].pos.x, this.nodes[j].pos.y) < NRM_CONFLICT_RANGE)
                             count++;
                     }
-                    if (count <= 3) {
+                    if (count <= 1) {
                         valid = true;
                         this.nodes.push (new Node (x, y, this.eNrm / this.nrm, NODE_TYPE.NRM));
                     }

@@ -39,7 +39,7 @@ let network = null;
 let pop = null;
 let iterations = 30;
 let it = 0;
-let deploymentStrategy = true;
+let deploymentStrategy = false;
 function setup () {
     createCanvas (800, 800);    
     if (deploymentStrategy)
@@ -115,7 +115,7 @@ function energyModel () {
                 deadCount = currentDeadCount;
                 console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
                 storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
-                RadioConsumptionModel.nprob += 0.1;
+                RadioConsumptionModel.nprob += 0.03;
                 RadioConsumptionModel.cprob += 0.01;
                 break;
             }

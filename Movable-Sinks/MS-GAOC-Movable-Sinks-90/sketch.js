@@ -39,7 +39,7 @@ let network = null;
 let pop = null;
 let iterations = 30;
 let it = 0;
-let deploymentStrategy = false;
+let deploymentStrategy = true;
 const NRM_CONFLICT_RANGE = 15;
 function setup () {
     createCanvas (800, 800);    

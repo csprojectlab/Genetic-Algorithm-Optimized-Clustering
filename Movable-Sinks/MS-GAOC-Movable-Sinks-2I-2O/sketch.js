@@ -58,12 +58,12 @@ function setup () {
     }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    clustering ();
+    // clustering ();
 }
 
 
 
-function draw1 () {
+function draw () {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")
@@ -75,8 +75,8 @@ function draw1 () {
     background (255);
     // Net area
     noFill ();
-    stroke (255)
-    strokeWeight (0.1);
+    stroke (0)
+    strokeWeight (0.9);
     rect (X, Y, W, H);
 
     pop.display ();

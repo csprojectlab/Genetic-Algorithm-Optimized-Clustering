@@ -112,7 +112,7 @@ class Network {
     }
 
     generateSinks () {
-        Sink.generatePositions(70);
+        // Sink.generatePositions(70);
         // Index is hard coded through observation   Uncomment for fast speed and change angle to 0.05 increment in loop
         // this.sinks.push (new Sink (151.45563794621643, 219.98486349325498, 2, 31));
         // this.sinks.push (new Sink (220.45563, 151.4556, 2, 1));
@@ -120,10 +120,14 @@ class Network {
         // this.sinks.push (new Sink (152.63215070215773, 80.04950477172352, 2, 95))
 
         // With angle 0.02
-        this.sinks.push (new Sink (151.45563794621643, 219.98486349325498, 2, 77));
-        this.sinks.push (new Sink (220.45563, 151.4556, 2, 2));
-        this.sinks.push (new Sink (80.00247390700606, 149.41149268429982, 2, 158))
-        this.sinks.push (new Sink (152.63215070215773, 80.04950477172352, 2, 237))
+        // this.sinks.push (new Sink (151.45563794621643, 219.98486349325498, 2, 77));
+        // this.sinks.push (new Sink (220.45563, 151.4556, 2, 2));
+        // this.sinks.push (new Sink (80.00247390700606, 149.41149268429982, 2, 158))
+        // this.sinks.push (new Sink (152.63215070215773, 80.04950477172352, 2, 237))
+        this.sinks.push (new Sink (151.45563794621643, 219.98486349325498, 2, 77).generatePositions(30));
+        this.sinks.push (new Sink (220.45563, 151.4556, 2, 2).generatePositions(70));
+        this.sinks.push (new Sink (80.00247390700606, 149.41149268429982, 2, 158).generatePositions(70))
+        this.sinks.push (new Sink (152.63215070215773, 80.04950477172352, 2, 237).generatePositions(30))
         return this;
     }
 

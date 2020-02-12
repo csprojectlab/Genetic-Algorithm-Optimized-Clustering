@@ -40,31 +40,41 @@ let network = null;
 let pop = null;
 let iterations = 30;
 let it = 0;
-let deploymentStrategy = false;
+let deploymentStrategy = true;
+let tier = "Tier 3";
+const Tier = {
+    "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
+}
 function setup () {
-    createCanvas (800, 800);    
-    if (deploymentStrategy)
+    createCanvas (800, 800);  
+    if (tier == Tier.T1) {
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes (Tier.T1).generateSinks ().generateDistMatrix ();
+    } else if (tier == Tier.T2) {
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes (Tier.T2).generateSinks ().generateDistMatrix ();
+    }  else if (tier == Tier.T3) {
+        if (deploymentStrategy)
         network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ();
     else
         network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
+    }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    clustering ();
+    // clustering ();
 }
 
 
-function draw1 () {
+function draw () {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")
         energyModel ();
         it = 0;
     }
-    background (0);
+    background (255);
     // Net area
     noFill ();
-    stroke (255)
-    strokeWeight (0.7);
+    stroke (0)
+    strokeWeight (0.9);
     rect (X, Y, W, H);
 
     pop.display ();
@@ -110,8 +120,8 @@ function energyModel () {
             if (currentDeadCount != deadCount) {
                 deadCount = currentDeadCount;
                 console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
-                if (deadCount == N)
-                storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
+                // if (deadCount == N)
+                    storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
                 RadioConsumptionModel.nprob += 0.1;
                 RadioConsumptionModel.cprob += 0.04;
                 break;

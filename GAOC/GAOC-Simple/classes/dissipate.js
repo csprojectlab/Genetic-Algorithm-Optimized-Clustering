@@ -1,5 +1,5 @@
 class RadioConsumptionModel {
-    static cprob = 0.21;
+    static cprob = 0.24;
     static nprob = 0.15;
     static dataPacketSent = 0;
     constructor () {

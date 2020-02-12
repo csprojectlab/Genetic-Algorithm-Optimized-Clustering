@@ -40,16 +40,27 @@ let pop = null;
 let iterations = 30;
 let it = 0;
 let deploymentStrategy = true;
+let tier = "Tier 3";
+const Tier = {
+    "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
+}
 function setup () {
-    createCanvas (800, 800);    
-    if (deploymentStrategy)
+    createCanvas (800, 800);  
+    if (tier == Tier.T1) {
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes (Tier.T1).generateSinks ().generateDistMatrix ();
+    } else if (tier == Tier.T2) {
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes (Tier.T2).generateSinks ().generateDistMatrix ();
+    }  else if (tier == Tier.T3) {
+        if (deploymentStrategy)
         network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ();
-    else 
+    else
         network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ();
+    }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
     clustering ();
 }
+
 
 
 function draw1 () {
@@ -106,6 +117,7 @@ function energyModel () {
         let obj = pop.generateClusters ();
         while (true) {
             r++;
+            d.broadcastMessage(obj.C)
             d.evanesce (obj.C, obj.NCN); 
             if (r % 200 == 0) {
                 storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
@@ -114,9 +126,10 @@ function energyModel () {
             if (currentDeadCount != deadCount) {
                 deadCount = currentDeadCount;
                 console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
-                storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
-                RadioConsumptionModel.nprob += 0.03;
-                RadioConsumptionModel.cprob += 0.01;
+                // if (deadCount == 140)
+                    storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
+                RadioConsumptionModel.nprob += 0.01;
+                RadioConsumptionModel.cprob += 0.04;
                 break;
             }
         }

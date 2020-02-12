@@ -10,11 +10,11 @@ class Node {
     display (isCH = 0) {
         noFill ();
         if (isCH) {
-            stroke (255);
+            stroke (100, 0, 255);
             ellipse (this.pos.x, this.pos.y, 2 * VICINITY);
             fill (0, 255, 0);
         }
-        stroke (255);
+        stroke (0);
         strokeWeight (0.4);
         switch (this.type) {
             case NODE_TYPE.NRM:

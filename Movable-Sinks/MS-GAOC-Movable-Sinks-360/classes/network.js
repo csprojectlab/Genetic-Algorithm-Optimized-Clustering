@@ -33,15 +33,39 @@ class Network {
         return this;
     }
 
-    generateNodes () {
+    generateNodes (tier = Tier.T3) {
+        switch(tier) {
+            case Tier.T1: this.generateT1Nodes(); break;
+            case Tier.T2: this.generateT2Nodes(); break;
+            case Tier.T3: this.generateT3Nodes(); break;
+            default: this.generateT3Nodes();
+        }        
+        return this;
+    }
+
+    // Total energy need to be 70
+    generateT1Nodes () {
+        for (let i = 0; i < (140); i++) {
+            this.nodes.push (new Node (random (X, X + W), random (Y, Y + H), 0.5, NODE_TYPE.NRM));
+        }
+    }
+    // Total energy need to be 70
+    generateT2Nodes () {
+        for (let i = 0; i < 40; i++)
+            this.nodes.push (new Node (random (X, X + W), random (Y, Y + H), 1, NODE_TYPE.INT));
+        for (let i = 0; i < 60; i++)
+        this.nodes.push (new Node (random (X, X + W), random (Y, Y + H), 0.5, NODE_TYPE.NRM));
+    }
+
+    generateT3Nodes () {
         for (let i = 0; i < this.adv; i++) 
             this.nodes.push (new Node (random (X, X + W), random (Y, Y + H), this.eAdv / this.adv, NODE_TYPE.ADV));
         for (let i = 0; i < this.int; i++)
             this.nodes.push (new Node (random (X, X + W), random (Y, Y + H), this.eInt / this.int, NODE_TYPE.INT));
         for (let i = 0; i < this.nrm; i++)
             this.nodes.push (new Node (random (X, X + W), random (Y, Y + H), this.eNrm / this.nrm, NODE_TYPE.NRM));
-        return this;
     }
+
 
     deploymentStrategy (radius) {
         let center = createVector (X + W / 2, Y + H / 2);

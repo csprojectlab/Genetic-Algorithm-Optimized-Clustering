@@ -96,12 +96,13 @@ function energyModel () {
         let obj = pop.generateClusters ();
         while (true) {
             r++;
+            d.broadcastMessage(obj.C)
             d.evanesce (obj.C, obj.NCN); 
             let currentDeadCount = network.nodes.filter(node => node.resEnergy <= 0).length;
             if (currentDeadCount != deadCount) {
                 deadCount = currentDeadCount;
                 console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
-                RadioConsumptionModel.nprob += 0.1;
+                RadioConsumptionModel.nprob += 0.04;
                 RadioConsumptionModel.cprob += 0.04;
                 break;
             }

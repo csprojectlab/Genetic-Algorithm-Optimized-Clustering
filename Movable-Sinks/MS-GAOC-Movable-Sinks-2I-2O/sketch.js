@@ -58,12 +58,12 @@ function setup () {
     }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    // clustering ();
+    clustering ();
 }
 
 
 
-function draw () {
+function draw1 () {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")

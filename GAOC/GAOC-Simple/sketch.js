@@ -112,6 +112,7 @@ function energyModel () {
         let obj = pop.generateClusters ();
         while (true) {
             r++;
+            d.broadcastMessage(obj.C);
             d.evanesce (obj.C, obj.NCN); 
             if (r % 200 == 0) {
                 storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
@@ -122,7 +123,7 @@ function energyModel () {
                 console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
                 // if (deadCount == N)
                     storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
-                RadioConsumptionModel.nprob += 0.1;
+                RadioConsumptionModel.nprob += 0.01;
                 RadioConsumptionModel.cprob += 0.04;
                 break;
             }

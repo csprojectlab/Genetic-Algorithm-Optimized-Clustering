@@ -133,8 +133,9 @@ class Population {
         }); 
         // Display the clusters
         Object.keys (clusters).forEach (head_index => {
+            let col = color(random(255), random(255), random(255));
             if (network.nodes[head_index].resEnergy > 0) {
-                network.nodes[head_index].display (1);
+                network.nodes[head_index].display (1, col);
                 strokeWeight (0.4)
                 stroke(255, 0, 0);
                 // console.log(clusters[head_index]["SI"])
@@ -145,7 +146,7 @@ class Population {
                 if (network.nodes[common_node_index].resEnergy > 0) {
                     network.nodes[common_node_index].display();
                     strokeWeight (0.4)
-                    stroke(0, 255, 0);
+                    stroke(col);
                     line (network.nodes[common_node_index].pos.x, network.nodes[common_node_index].pos.y, network.nodes[head_index].pos.x, network.nodes[head_index].pos.y);
                 }                
             })

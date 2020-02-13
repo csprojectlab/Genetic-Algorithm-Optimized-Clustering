@@ -112,7 +112,42 @@ class Population {
     }
 
     display () {
-        network.display (this.chromosomes[this.fittestIndex].genes)
+        // network.display (this.chromosomes[this.fittestIndex].genes)
         network.sinks.forEach (sink => sink.display ())
+        let obj = this.generateClusters ();
+        this.displayClusteredStructure (obj.C, obj.NCN)
+    }
+
+    displayClusteredStructure (clusters, ncn) {
+        // Display the non cluster nodes. 
+        ncn.forEach (obj => {
+            if (network.nodes[obj.I].resEnergy > 0) {
+                network.nodes[obj.I].display();
+                strokeWeight (0.4)
+                stroke (255, 0, 0)
+                line (network.nodes[obj.I].pos.x, network.nodes[obj.I].pos.y, network.sinks[obj.SI].pos.x, network.sinks[obj.SI].pos.y);
+            }
+            
+        }); 
+        // Display the clusters
+        Object.keys (clusters).forEach (head_index => {
+            let col = color(random(255), random(255), random(255));
+            if (network.nodes[head_index].resEnergy > 0) {
+                network.nodes[head_index].display (1, col);
+                strokeWeight (0.4)
+                stroke(255, 0, 0);
+                // console.log(clusters[head_index]["SI"])
+                if (clusters[head_index]["SI"] != -1)
+                    line (network.nodes[head_index].pos.x, network.nodes[head_index].pos.y, network.sinks[clusters[head_index]["SI"]].pos.x, network.sinks[clusters[head_index]["SI"]].pos.y);
+            }
+            clusters[head_index]["N"].forEach (common_node_index => {
+                if (network.nodes[common_node_index].resEnergy > 0) {
+                    network.nodes[common_node_index].display();
+                    strokeWeight (0.4)
+                    stroke(col);
+                    line (network.nodes[common_node_index].pos.x, network.nodes[common_node_index].pos.y, network.nodes[head_index].pos.x, network.nodes[head_index].pos.y);
+                }                
+            })
+        });
     }
 }

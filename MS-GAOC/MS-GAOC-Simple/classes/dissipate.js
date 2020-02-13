@@ -40,7 +40,7 @@ class RadioConsumptionModel {
         let e = Utils.energyToTransmit (2000 * (nodesDissipating + 1), network.sinkDistance[h_index][clusters[h_index]["SI"]]);
         network.nodes[h_index].resEnergy -= e;  
         packetCount++;
-        RadioConsumptionModel.dataPacketSent += 2 * packetCount;
+        RadioConsumptionModel.dataPacketSent +=  packetCount;
     }
 
     dissipateSingleNodeEnergy (obj) {

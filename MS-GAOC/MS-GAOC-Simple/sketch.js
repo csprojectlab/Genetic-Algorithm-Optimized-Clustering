@@ -120,7 +120,7 @@ function energyModel () {
                 console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
                 // if (deadCount == N)
                     storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
-                RadioConsumptionModel.nprob += 0.03;
+                RadioConsumptionModel.nprob += 0.01;
                 RadioConsumptionModel.cprob += 0.04;
                 break;
             }

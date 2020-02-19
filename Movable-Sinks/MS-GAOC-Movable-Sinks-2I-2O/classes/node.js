@@ -10,9 +10,9 @@ class Node {
     display (isCH = 0, col = color(0, 255, 0)) {
         noFill ();
         if (isCH) {
-            stroke (0);
-            strokeWeight (0.4)
-            //ellipse (this.pos.x, this.pos.y, 2 * VICINITY);
+            stroke (col);
+            strokeWeight (0.5)
+            ellipse (this.pos.x, this.pos.y, 2 * VICINITY);
             fill (col);
         }
         stroke (0);

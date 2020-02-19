@@ -131,9 +131,11 @@ class Population {
             }
             
         }); 
-        // Display the clusters
+        let index = 0;
         Object.keys (clusters).forEach (head_index => {
-            let col = color(random(255), random(255), random(255));
+            // let col = color(random(255), random(255), random(255));
+            let col = selectedColors[index];
+            index = (index + 1) % selectedColors.length;
             if (network.nodes[head_index].resEnergy > 0) {
                 network.nodes[head_index].display (1, col);
                 strokeWeight (0.4)

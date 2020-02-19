@@ -40,7 +40,7 @@ let pop = null;
 let iterations = 30;
 let it = 0;
 let deploymentStrategy = true;
-let tier = "Tier 1";
+let tier = "Tier 3";
 const Tier = {
     "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
 }

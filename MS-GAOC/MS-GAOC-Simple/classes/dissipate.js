@@ -3,6 +3,7 @@ class RadioConsumptionModel {
     static nprob = 0.15;
     static dataPacketSent = 0;
     constructor () {
+        this.sinksLoad = new Array(network.sinks.length).fill(0);
         this.rounds = 0;
         return this;
     }
@@ -41,6 +42,8 @@ class RadioConsumptionModel {
         network.nodes[h_index].resEnergy -= e;  
         packetCount++;
         RadioConsumptionModel.dataPacketSent +=  2 * packetCount;
+        this.sinksLoad[clusters[h_index]["SI"]] += 2 * packetCount;
+        
     }
 
     dissipateSingleNodeEnergy (obj) {
@@ -48,6 +51,7 @@ class RadioConsumptionModel {
             let e = Utils.energyToTransmit (2000, network.sinkDistance[obj["I"]][obj["SI"]]);
             network.nodes[obj["I"]].resEnergy -= e;
             RadioConsumptionModel.dataPacketSent += 1;
+            this.sinksLoad[obj["SI"]] += 1;
             // if (network.nodes[obj["I"]].resEnergy <= 0)
                 // console.log("SIngle node dead")
         }

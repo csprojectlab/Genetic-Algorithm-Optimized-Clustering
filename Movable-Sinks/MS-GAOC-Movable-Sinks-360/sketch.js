@@ -63,7 +63,7 @@ function setup () {
 
 
 
-function draw1 () {
+function draw1() {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")
@@ -120,14 +120,14 @@ function energyModel () {
             d.broadcastMessage(obj.C)
             d.evanesce (obj.C, obj.NCN); 
             if (r % 200 == 0) {
-                storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
+                storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent, d.sinksLoad)
             }
             let currentDeadCount = network.nodes.filter(node => node.resEnergy <= 0).length;
             if (currentDeadCount != deadCount) {
                 deadCount = currentDeadCount;
                 console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
                 // if (deadCount == 140)
-                    storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
+                    storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent, d.sinksLoad)
                 RadioConsumptionModel.nprob += 0.01;
                 RadioConsumptionModel.cprob += 0.04;
                 break;

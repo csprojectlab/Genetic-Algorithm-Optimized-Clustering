@@ -108,7 +108,7 @@ function clustering () {
 
 let deadCount = 0;
 let r = 0;
-let sinkLoad = []
+
 function energyModel () {
         let d = new RadioConsumptionModel ();
         let obj = pop.generateClusters ();

@@ -53,8 +53,3 @@ class RadioConsumptionModel {
         }
     }
 }
-
-function keyPressed () {
-    if (key == "P" || key == "p")
-        noLoop();
-}

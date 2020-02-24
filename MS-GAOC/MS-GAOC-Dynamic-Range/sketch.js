@@ -59,7 +59,7 @@ function draw () {
     background (255);
     // Net area
     noFill ();
-    stroke (255)
+    stroke (0)
     strokeWeight (0.7);
     rect (X, Y, W, H);
 

@@ -12,13 +12,13 @@ class Node {
     }
 
     // TODO(Ari): Add vicinity feature to node display
-    display (isCH = 0) {
+    display (isCH = 0, col = color(0, 255, 0)) {
         noFill ();
         if (isCH) {
-            stroke (0);
-            strokeWeight(0.5)
-            ellipse (this.pos.x, this.pos.y, 2 * this.vicinity);        // DYNAMIC NEECP
-            fill (0, 255, 0);
+            stroke (col);
+            strokeWeight (0.5)
+            ellipse (this.pos.x, this.pos.y, 2 * this.vicinity);
+            fill (col);
         }
         stroke (0);
         strokeWeight (0.4);

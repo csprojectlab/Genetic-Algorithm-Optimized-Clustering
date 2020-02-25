@@ -93,7 +93,7 @@ class Population {
         let heads = [];
         this.chromosomes[this.fittestIndex].genes.forEach ((v, i) => {
             if (v == 1) {
-                clusters[i] = {SI: -1, N: []};
+                clusters[i] = {SI: Utils.closestSink (network.sinkDistance, i, network.sinks), N: []};
                 heads.push (i);
             }
         });
@@ -104,7 +104,7 @@ class Population {
                     nonClusterNodes.push ({I: index, SI: Utils.closestSink (network.sinkDistance, index, network.sinks)});
                 } else {
                     clusters[headIndex]["N"].push (index);
-                    clusters[headIndex]["SI"] = Utils.closestSink (network.sinkDistance, headIndex, network.sinks);
+                    // clusters[headIndex]["SI"] = Utils.closestSink (network.sinkDistance, headIndex, network.sinks);
                 }
             }
         })

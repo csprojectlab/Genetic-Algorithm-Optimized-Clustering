@@ -3,6 +3,7 @@ class RadioConsumptionModel {
     static nprob = 0.15;
     static dataPacketSent = 0;
     constructor () {
+        this.sinksLoad = new Array(network.sinks.length).fill(0);
         this.rounds = 0;
         return this;
     }
@@ -38,9 +39,10 @@ class RadioConsumptionModel {
             }
         });
         let e = Utils.energyToTransmit (2000 * (nodesDissipating + 1), network.sinkDistance[h_index][clusters[h_index]["SI"]]);
-        network.nodes[h_index].resEnergy -= e;  
+        network.nodes[h_index].resEnergy -= e; 
         packetCount++;
         RadioConsumptionModel.dataPacketSent += 2 * packetCount;
+        this.sinksLoad[clusters[h_index]["SI"]] += 2 * packetCount;
     }
 
     dissipateSingleNodeEnergy (obj) {
@@ -48,6 +50,7 @@ class RadioConsumptionModel {
             let e = Utils.energyToTransmit (2000, network.sinkDistance[obj["I"]][obj["SI"]]);
             network.nodes[obj["I"]].resEnergy -= e;
             RadioConsumptionModel.dataPacketSent++;
+            this.sinksLoad[obj["SI"]] += 1;
         }
     }
 }

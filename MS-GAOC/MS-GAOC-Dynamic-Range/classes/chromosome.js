@@ -16,6 +16,15 @@ class Chromosome {
         return obj;
     }
 
+    countClusterHeads () {
+        let count = 0;
+        this.genes.forEach ((gene, index) => {
+            if (gene && network.nodes[index].resEnergy > 0)
+                count++;
+        });
+        return count;
+    }
+
     isValid (gene, index) {
         if (network.nodes[index].resEnergy <= 0)
             return false;

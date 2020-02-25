@@ -88,7 +88,7 @@ function draw () {
     if (network.nodes.filter(n => n.resEnergy > 0).length != 0) {
         pop.calFitness ().fittest ().evolve ();
     } else {
-        console.log("FINISHED")
+        console.log("FINISHED! Data Packets Sent: ", RadioConsumptionModel.dataPacketSent)
         noLoop();
     }
 }
@@ -120,14 +120,14 @@ function energyModel () {
         d.broadcastMessage(obj.C);
         d.evanesce (obj.C, obj.NCN); 
         if (r % 200 == 0) {
-            storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
+            storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent, d.sinksLoad)
         }
         let currentDeadCount = network.nodes.filter(node => node.resEnergy <= 0).length;
         if (currentDeadCount != deadCount) {
             deadCount = currentDeadCount;
             console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
             // if (deadCount == N)
-                storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent)
+            storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent, d.sinksLoad)
             RadioConsumptionModel.nprob += 0.01;
             RadioConsumptionModel.cprob += 0.04;
             break;

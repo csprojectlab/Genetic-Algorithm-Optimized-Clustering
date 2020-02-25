@@ -150,8 +150,7 @@ class Chromosome {
                     countCH++;
             } else {
                 child.push (0);
-            }
-            
+            }            
         }
         for (let i = 0; i < child.length; i++) {
             if (child[i] == 1) {
@@ -169,7 +168,12 @@ class Chromosome {
         for (let i = 0; i < this.genes.length; i++) {
             if (random (1) < m_rate) {
                 if (this.genes[i] == 0) {
-                    if (this.isValid (this.genes, i))   this.genes[i] = 1;
+                    if (this.isValid (this.genes, i)) {
+                        if (this.countCH < this.maxCH) {
+                            this.genes[i] = 1;
+                            this.countCH++;
+                        }
+                    }
                 }
             }
         }

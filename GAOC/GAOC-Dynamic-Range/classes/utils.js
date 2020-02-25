@@ -12,7 +12,7 @@ class Utils {
         let closestIndex = -1;
         heads.forEach ((h_index) => {
             let d = node_matrix[node_index][h_index];
-            if (d < VICINITY && d < distance) {
+            if (d < network.nodes[h_index].vicinity && d < distance) {
                 distance = d;
                 closestIndex = h_index;
             }

@@ -9,7 +9,9 @@ class RadioConsumptionModel {
 
     // TODO(Ari): Not discussed in MS-GAOC paper but will use if for enhancement
     broadcastMessage (clusters) {
-        
+        Object.keys(clusters).forEach (h_index => {
+            RadioConsumptionModel.dataPacketSent++;
+         })
     }
 
     evanesce (clusters, singleNodes) {

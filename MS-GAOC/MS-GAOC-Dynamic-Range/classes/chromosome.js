@@ -1,7 +1,7 @@
 class Chromosome {
     constructor () {
         this.genes = new Array (network.nodes.length).fill (0);
-        this.maxCH = 16;
+        this.maxCH = 12;
         this.minCH = 5;
         this.countCH = 0;
         this.fitness = 0;
@@ -161,7 +161,9 @@ class Chromosome {
         }
         let childChromosome = new Chromosome ();
         childChromosome.genes = child.slice ();
-        childChromosome.countCH = child.filter (v => v == 1).length;
+        childChromosome.countCH = child.filter ((v, index) => v == 1).length;
+        if (childChromosome.countCH > this.maxCH)
+            return null;
         return childChromosome;
     }
 
@@ -169,7 +171,12 @@ class Chromosome {
         for (let i = 0; i < this.genes.length; i++) {
             if (random (1) < m_rate) {
                 if (this.genes[i] == 0) {
-                    if (this.isValid (this.genes, i))   this.genes[i] = 1;
+                    if (this.isValid (this.genes, i)) {
+                        if (this.countCH < this.maxCH) {
+                            this.genes[i] = 1;
+                            this.countCH++;
+                        }
+                    }
                 }
             }
         }

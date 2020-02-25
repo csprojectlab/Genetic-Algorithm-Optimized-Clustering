@@ -30,6 +30,7 @@ const N = 100;    // can be 200 in another scenario
 const POP_SIZE = 30;
 const CROSSOVER_RATE = 0.6;
 const MUTATION_RATE = 0.006;
+const NRM_CONFLICT_RANGE = 15;
 const VICINITY = 40;        // This is the radius
 const VARPHI = 0.3;     // Fitness co-efficients
 const DELTA = 0.3;
@@ -40,13 +41,28 @@ let pop = null;
 let iterations = 30;
 let it = 0;
 
+let deploymentStrategy = true;
+let tier = "Tier 3";
+const Tier = {
+    "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
+}
+
 let selectedColors = [];
 function setup () {
     selectedColors = [
         color(51,0,0), color(102,51,0), color(255,153,51), color(51,102,0), color(102,255,178), color(0,102,204), color(204,0,204), color(102,0,102), color(255,102,102), color(102,178,255)
     ]
-    createCanvas (800, 800);    
-    network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ().adjustSensingRange ();
+    createCanvas (800, 800);  
+    if (tier == Tier.T1) {
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes (Tier.T1).generateSinks ().generateDistMatrix ().adjustSensingRange ();
+    } else if (tier == Tier.T2) {
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes (Tier.T2).generateSinks ().generateDistMatrix ().adjustSensingRange ();
+    }  else if (tier == Tier.T3) {
+        if (deploymentStrategy)
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).deploymentStrategy (15).generateSinks ().generateDistMatrix ().adjustSensingRange ();
+    else
+        network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes ().generateSinks ().generateDistMatrix ().adjustSensingRange ();;
+    }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
     // clustering ();
@@ -103,18 +119,23 @@ function clustering () {
 let deadCount = 0;
 let r = 0;
 function energyModel () {
-        let d = new RadioConsumptionModel ();
-        let obj = pop.generateClusters ();
-        while (true) {
-            r++;
-            d.evanesce (obj.C, obj.NCN); 
-            let currentDeadCount = network.nodes.filter(node => node.resEnergy <= 0).length;
-            if (currentDeadCount != deadCount) {
-                deadCount = currentDeadCount;
-                console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
-                RadioConsumptionModel.nprob += 0.1;
-                RadioConsumptionModel.cprob += 0.01;
-                break;
-            }
+    let d = new RadioConsumptionModel ();
+    let obj = pop.generateClusters ();
+    while (true) {
+        r++;
+        d.broadcastMessage(obj.C)
+        d.evanesce (obj.C, obj.NCN); 
+        if (r % 200 == 0) {
+            storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent, d.sinksLoad)
         }
+        let currentDeadCount = network.nodes.filter(node => node.resEnergy <= 0).length;
+        if (currentDeadCount != deadCount) {
+            deadCount = currentDeadCount;
+            console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
+            storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent, d.sinksLoad)
+            RadioConsumptionModel.nprob += 0.04;
+            RadioConsumptionModel.cprob += 0.04;
+            break;
+        }
+    }
 }

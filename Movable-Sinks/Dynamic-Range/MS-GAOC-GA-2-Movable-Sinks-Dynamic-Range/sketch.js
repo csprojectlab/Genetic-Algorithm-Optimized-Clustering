@@ -42,7 +42,7 @@ let iterations = 30;
 let it = 0;
 
 let deploymentStrategy = true;
-let tier = "Tier 3";
+let tier = "Tier 1";
 const Tier = {
     "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
 }
@@ -133,7 +133,7 @@ function energyModel () {
             deadCount = currentDeadCount;
             console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
             storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent, d.sinksLoad)
-            RadioConsumptionModel.nprob += 0.01;
+            RadioConsumptionModel.nprob += 0.03;
             RadioConsumptionModel.cprob += 0.04;
             break;
         }

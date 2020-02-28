@@ -42,7 +42,7 @@ let iterations = 30;
 let it = 0;
 
 let deploymentStrategy = true;
-let tier = "Tier 3";
+let tier = "Tier 2";
 const Tier = {
     "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
 }
@@ -65,12 +65,12 @@ function setup () {
     }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    // clustering ();
+    clustering ();
     
 }
 
 
-function draw () {
+function draw1 () {
     it++;
     if (it == iterations) {
         energyModel ();
@@ -133,7 +133,7 @@ function energyModel () {
             deadCount = currentDeadCount;
             console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
             storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent, d.sinksLoad)
-            RadioConsumptionModel.nprob += 0.04;
+            RadioConsumptionModel.nprob += 0.1;
             RadioConsumptionModel.cprob += 0.04;
             break;
         }

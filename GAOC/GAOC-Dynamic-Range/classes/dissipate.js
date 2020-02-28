@@ -1,5 +1,5 @@
 class RadioConsumptionModel {
-    static cprob = 0.23;
+    static cprob = 0.27;
     static nprob = 0.15;
     static dataPacketSent = 0;
     constructor () {
@@ -11,7 +11,8 @@ class RadioConsumptionModel {
     // TODO(Ari): Not discussed in MS-GAOC paper but will use if for enhancement
     broadcastMessage (clusters) {
         Object.keys(clusters).forEach (h_index => {
-            RadioConsumptionModel.dataPacketSent++;
+            if (random(1) < 0.4)
+                RadioConsumptionModel.dataPacketSent++;
          })
     }
 
@@ -41,8 +42,8 @@ class RadioConsumptionModel {
         let e = Utils.energyToTransmit (2000 * (nodesDissipating + 1), network.sinkDistance[h_index][clusters[h_index]["SI"]]);
         network.nodes[h_index].resEnergy -= e;  
         packetCount++;
-        RadioConsumptionModel.dataPacketSent += 2 * packetCount;
-        this.sinksLoad[clusters[h_index]["SI"]] += 2 * packetCount;
+        RadioConsumptionModel.dataPacketSent += packetCount;
+        this.sinksLoad[clusters[h_index]["SI"]] += packetCount;
     }
 
     dissipateSingleNodeEnergy (obj) {

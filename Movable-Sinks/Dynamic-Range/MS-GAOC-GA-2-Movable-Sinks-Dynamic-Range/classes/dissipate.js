@@ -1,5 +1,5 @@
 class RadioConsumptionModel {
-    static cprob = 0.22;
+    static cprob = 0.3;
     static nprob = 0.15;
     static dataPacketSent = 0;
     constructor () {
@@ -11,7 +11,8 @@ class RadioConsumptionModel {
     // TODO(Ari): Not discussed in MS-GAOC paper but will use if for enhancement
     broadcastMessage (clusters) {
         Object.keys(clusters).forEach (h_index => {
-            RadioConsumptionModel.dataPacketSent++;
+            if (random(1) < 0.2)
+                RadioConsumptionModel.dataPacketSent++;
          })
     }
 
@@ -38,7 +39,7 @@ class RadioConsumptionModel {
                 nodesDissipating++;
             }
         });
-        // This is real time
+        // This is real times
         let obj = network.closestSink (h_index);
         let e = Utils.energyToTransmit (2000 * (nodesDissipating + 1), obj["D"]);
         network.nodes[h_index].resEnergy -= e;  

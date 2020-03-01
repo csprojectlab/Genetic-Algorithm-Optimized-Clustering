@@ -8,6 +8,15 @@ class Chromosome {
         return this;
     }
 
+    countClusterHeads () {
+        let count = 0;
+        this.genes.forEach ((gene, index) => {
+            if (gene && network.nodes[index].resEnergy > 0)
+                count++;
+        });
+        return count;
+    }
+
     copy () {
         let obj = new Chromosome ();
         obj.genes = this.genes.slice ();
@@ -164,12 +173,15 @@ class Chromosome {
     }
 
     mutate (m_rate) {
-        if (this.genes.filter (v => v == 1).length >= this.maxCH)
-            return;
         for (let i = 0; i < this.genes.length; i++) {
             if (random (1) < m_rate) {
                 if (this.genes[i] == 0) {
-                    if (this.isValid (this.genes, i))   this.genes[i] = 1;
+                    if (this.isValid (this.genes, i)) {
+                        if (this.countCH < this.maxCH) {
+                            this.genes[i] = 1;
+                            this.countCH++;
+                        }
+                    }
                 }
             }
         }

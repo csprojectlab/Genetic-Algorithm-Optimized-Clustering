@@ -7,14 +7,15 @@ class Node {
     }
 
     // TODO(Ari): Add vicinity feature to node display
-    display (isCH = 0) {
+    display (isCH = 0, col = color(0, 255, 0)) {
         noFill ();
         if (isCH) {
-            stroke (255);
+            stroke (col);
+            strokeWeight (0.6)
             ellipse (this.pos.x, this.pos.y, 2 * VICINITY);
-            fill (0, 255, 0);
+            fill (col);
         }
-        stroke (255);
+        stroke (0);
         strokeWeight (0.4);
         switch (this.type) {
             case NODE_TYPE.NRM:

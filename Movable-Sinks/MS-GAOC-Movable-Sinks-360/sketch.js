@@ -44,7 +44,11 @@ let tier = "Tier 3";
 const Tier = {
     "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
 }
+let selectedColors = [];
 function setup () {
+    selectedColors = [
+        color(51,0,0), color(102,51,0), color(255,153,51), color(51,102,0), color(102,255,178), color(0,102,204), color(204,0,204), color(102,0,102), color(255,102,102), color(102,178,255)
+    ]
     createCanvas (800, 800);  
     if (tier == Tier.T1) {
         network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes (Tier.T1).generateSinks ().generateDistMatrix ();
@@ -58,12 +62,12 @@ function setup () {
     }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    clustering ();
+    // clustering ();
 }
 
 
 
-function draw1() {
+function draw() {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")
@@ -75,8 +79,8 @@ function draw1() {
     background (255);
     // Net area
     noFill ();
-    stroke (255)
-    strokeWeight (0.1);
+    stroke (0)
+    strokeWeight (0.4);
     rect (X, Y, W, H);
 
     pop.display ();

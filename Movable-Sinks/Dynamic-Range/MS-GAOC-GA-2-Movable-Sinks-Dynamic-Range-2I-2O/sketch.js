@@ -64,11 +64,11 @@ function setup () {
     }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    // clustering ();
+    clustering ();
 }
 
 
-function draw () {
+function draw1 () {
     it++;
     if (it == iterations) {
         energyModel ();
@@ -131,7 +131,7 @@ function energyModel () {
             deadCount = currentDeadCount;
             console.log("Rounds: ", r, "Dead Nodes: ", deadCount, "Energy: ", network.calNetEnergy());
             storeResult (r, deadCount, network.calNetEnergy(), pop.chromosomes[pop.fittestIndex].countClusterHeads(), RadioConsumptionModel.dataPacketSent, d.sinksLoad)
-            RadioConsumptionModel.nprob += 0.04;
+            RadioConsumptionModel.nprob += 0.01;
             RadioConsumptionModel.cprob += 0.04;
             break;
         }

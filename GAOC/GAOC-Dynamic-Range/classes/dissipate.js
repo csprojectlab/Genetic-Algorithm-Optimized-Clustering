@@ -1,5 +1,9 @@
 class RadioConsumptionModel {
+<<<<<<< HEAD
     static cprob = 0.27;
+=======
+    static cprob = 0.3;
+>>>>>>> e34c4796307d9baee65c79df82ed062a8097bf46
     static nprob = 0.15;
     static dataPacketSent = 0;
     constructor () {
@@ -11,7 +15,11 @@ class RadioConsumptionModel {
     // TODO(Ari): Not discussed in MS-GAOC paper but will use if for enhancement
     broadcastMessage (clusters) {
         Object.keys(clusters).forEach (h_index => {
+<<<<<<< HEAD
             if (random(1) < 0.4)
+=======
+            if (random(1) < 0.2)
+>>>>>>> e34c4796307d9baee65c79df82ed062a8097bf46
                 RadioConsumptionModel.dataPacketSent++;
          })
     }

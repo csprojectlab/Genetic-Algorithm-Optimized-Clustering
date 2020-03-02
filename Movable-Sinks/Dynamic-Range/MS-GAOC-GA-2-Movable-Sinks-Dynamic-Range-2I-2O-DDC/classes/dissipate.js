@@ -49,7 +49,7 @@ class RadioConsumptionModel {
     }
 
     dissipateSingleNodeEnergy (obj) {
-        if (random (1) < 0.1 && network.nodes[obj["I"]].resEnergy > 0) {
+        if (random (1) < 0.3 && network.nodes[obj["I"]].resEnergy > 0) {
             // This is real time
             let o = network.closestSink(obj["I"]);
             let e = Utils.energyToTransmit (2000, o["D"]);

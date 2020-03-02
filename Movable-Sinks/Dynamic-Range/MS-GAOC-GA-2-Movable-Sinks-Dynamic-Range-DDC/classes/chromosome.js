@@ -1,7 +1,7 @@
 class Chromosome {
     constructor () {
         this.genes = new Array (network.nodes.length).fill (0);
-        this.maxCH = 16;
+        this.maxCH = 8;
         this.minCH = 5;
         this.countCH = 0;
         this.fitness = 0;
@@ -41,6 +41,9 @@ class Chromosome {
     isValid (gene, index) {
         if (network.nodes[index].resEnergy <= 0)
             return false;
+        let obj = network.closestSink (index);
+        if (obj["D"] < NON_CLUSTER_RANGE)
+            return false;
         for (let i = 0; i < gene.length; i++) {
             if (i != index && gene[i] == 1) {
                 if (network.nodeDistance[i][index] <= network.nodes[index].vicinity || network.nodeDistance[i][index] <= network.nodes[i].vicinity)
@@ -59,9 +62,13 @@ class Chromosome {
         while (i <= limit) {
             index = floor (random (this.genes.length));
             if (!used.includes (index) && this.isValid (this.genes, index)) {
-                used.push (index)
-                this.genes[index] = 1;
-                i++;
+                // Check whether it is close enough to any sink or not.
+                let obj = network.closestSink (index);  // Closest sink
+                if (obj["D"] > NON_CLUSTER_RANGE) {
+                    used.push (index)
+                    this.genes[index] = 1;
+                    i++;
+                }  
             }
         }
         this.countCH = this.genes.filter (v => v == 1).length;

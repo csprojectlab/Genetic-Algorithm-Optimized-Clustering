@@ -31,6 +31,7 @@ const POP_SIZE = 30;
 const CROSSOVER_RATE = 0.6;
 const MUTATION_RATE = 0.006;
 const NRM_CONFLICT_RANGE = 15;
+const NON_CLUSTER_RANGE = 40;   // This is the DDC range.
 const VICINITY = 40;        // This is the radius
 const VARPHI = 0.3;     // Fitness co-efficients
 const DELTA = 0.3;
@@ -41,7 +42,7 @@ let pop = null;
 let iterations = 30;
 let it = 0;
 let deploymentStrategy = true;
-let tier = "Tier 1";
+let tier = "Tier 3";
 const Tier = {
     "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
 }
@@ -65,10 +66,10 @@ function setup () {
     }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    // clustering ();
+    clustering ();
 }
 
-function draw () {
+function draw1 () {
     it++;
     if (it == iterations) {
         // console.log("Iterations DONE")

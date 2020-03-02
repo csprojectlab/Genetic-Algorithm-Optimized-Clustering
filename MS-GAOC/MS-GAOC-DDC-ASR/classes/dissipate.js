@@ -47,7 +47,7 @@ class RadioConsumptionModel {
     }
 
     dissipateSingleNodeEnergy (obj) {
-        if (random (1) < 0.1 && network.nodes[obj["I"]].resEnergy > 0) {
+        if (random (1) < 0.3 && network.nodes[obj["I"]].resEnergy > 0) {
             let e = Utils.energyToTransmit (2000, network.sinkDistance[obj["I"]][obj["SI"]]);
             network.nodes[obj["I"]].resEnergy -= e;
             RadioConsumptionModel.dataPacketSent++;

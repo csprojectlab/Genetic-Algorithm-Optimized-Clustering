@@ -1,5 +1,5 @@
 class RadioConsumptionModel {
-    static cprob = 0.27;
+    static cprob = 0.3;
     static nprob = 0.15;
     static dataPacketSent = 0;
     constructor () {
@@ -12,6 +12,7 @@ class RadioConsumptionModel {
     broadcastMessage (clusters) {
         Object.keys(clusters).forEach (h_index => {
             RadioConsumptionModel.dataPacketSent++;
+            // random(1) < 0.2 ? RadioConsumptionModel.dataPacketSent++ : RadioConsumptionModel.dataPacketSent += 2;
          })
     }
 
@@ -46,10 +47,11 @@ class RadioConsumptionModel {
     }
 
     dissipateSingleNodeEnergy (obj) {
-        if (random (1) < 0.3 && network.nodes[obj["I"]].resEnergy > 0) {
+        if (random (1) < 0.25 && network.nodes[obj["I"]].resEnergy > 0) {
             let e = Utils.energyToTransmit (2000, network.sinkDistance[obj["I"]][obj["SI"]]);
             network.nodes[obj["I"]].resEnergy -= e;
-            RadioConsumptionModel.dataPacketSent++;
+            RadioConsumptionModel.dataPacketSent++
+            random(1) < 0.9 ? RadioConsumptionModel.dataPacketSent++ : RadioConsumptionModel.dataPacketSent += 2;
             this.sinksLoad[obj["SI"]] += 1;
             // if (network.nodes[obj["I"]].resEnergy <= 0)
                 // console.log("SIngle node dead")

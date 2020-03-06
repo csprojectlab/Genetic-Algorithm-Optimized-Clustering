@@ -153,7 +153,7 @@ class Network {
     calNetEnergy () {
         let sum = 0;
         this.nodes.forEach (node => {
-            if (isNaN(node.resEnergy))
+            if (isNaN(node.resEnergy) || node.resEnergy < 0)
                 node.resEnergy = 0;
             sum += node.resEnergy
         });

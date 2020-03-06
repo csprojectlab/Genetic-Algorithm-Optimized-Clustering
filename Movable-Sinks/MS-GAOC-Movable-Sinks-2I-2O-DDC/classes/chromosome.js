@@ -1,7 +1,7 @@
 class Chromosome {
     constructor () {
         this.genes = new Array (network.nodes.length).fill (0);
-        this.maxCH = 5;
+        this.maxCH = 6;
         this.minCH = 2;
         this.countCH = 0;
         this.fitness = 0;

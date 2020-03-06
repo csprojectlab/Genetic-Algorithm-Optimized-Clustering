@@ -12,6 +12,7 @@ class RadioConsumptionModel {
     broadcastMessage (clusters) {
         Object.keys(clusters).forEach(h_index => {
             RadioConsumptionModel.dataPacketSent++;
+            random(1) > 0.9 ? RadioConsumptionModel.dataPacketSent++ : RadioConsumptionModel.dataPacketSent += 1;
         })
     }
 
@@ -54,6 +55,7 @@ class RadioConsumptionModel {
             let e = Utils.energyToTransmit (2000, o["D"]);
             network.nodes[obj["I"]].resEnergy -= e;
             RadioConsumptionModel.dataPacketSent++;
+            random(1) > 0.9 ? RadioConsumptionModel.dataPacketSent++ : RadioConsumptionModel.dataPacketSent += 3;
             this.sinksLoad[obj["I"]] += 1;
         }
     }

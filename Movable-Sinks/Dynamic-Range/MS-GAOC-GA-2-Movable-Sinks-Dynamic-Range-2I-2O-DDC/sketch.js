@@ -46,12 +46,13 @@ let tier = "Tier 3";
 const Tier = {
     "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
 }
-
+let slider = null;
 let selectedColors = [];
 function setup () {
     selectedColors = [
         color(51,0,0), color(102,51,0), color(255,153,51), color(51,102,0), color(102,255,178), color(0,102,204), color(204,0,204), color(102,0,102), color(255,102,102), color(102,178,255)
     ]
+    slider = createSlider(1, 20, 20);
     createCanvas (800, 800);  
     if (tier == Tier.T1) {
         network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes (Tier.T1).generateSinks ().generateDistMatrix ().adjustSensingRange ();
@@ -70,7 +71,9 @@ function setup () {
 
 
 function draw () {
-    it++;
+    let val = slider.value();
+    for (let i = 1; i <= val; i++) {
+        it++;
     if (it == iterations) {
         energyModel ();
         it = 0;
@@ -91,6 +94,7 @@ function draw () {
         noLoop();
     }
     network.updateSinks();
+    }
 }
 
 function clustering () {

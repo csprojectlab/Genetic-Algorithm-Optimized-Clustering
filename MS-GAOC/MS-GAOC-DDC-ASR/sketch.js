@@ -47,12 +47,13 @@ const Tier = {
     "T1": "Tier 1", "T2": "Tier 2", "T3": "Tier 3"
 }
 
-
+let slider = null;
 let selectedColors = [];
 function setup () {
     selectedColors = [
         color(51,0,0), color(102,51,0), color(255,153,51), color(51,102,0), color(102,255,178), color(0,102,204), color(204,0,204), color(102,0,102), color(255,102,102), color(102,178,255)
     ]
+    slider = createSlider(1, 20, 20);
     createCanvas (800, 800);  
     if (tier == Tier.T1) {
         network = new Network (N).initNetParams (NF_ADV, NF_INT, EF_ALPHA, EF_BETA).generateNodes (Tier.T1).generateSinks ().generateDistMatrix ().adjustSensingRange ();
@@ -66,11 +67,13 @@ function setup () {
     }
     pop = new Population (POP_SIZE, true).boot ().generateChromosomes ();
     pop.calFitness ().fittest ().evolve ();
-    clustering ();
+    // clustering ();
 }
 
-function draw1 () {
-    it++;
+function draw () {
+    let val = slider.value();
+    for (let i = 1; i <= val; i++) {
+        it++;
     if (it == iterations) {
         // console.log("Iterations DONE")
         energyModel ();       
@@ -90,6 +93,7 @@ function draw1 () {
     } else {
         console.log("FINISHED! Data Packets Sent: ", RadioConsumptionModel.dataPacketSent)
         noLoop();
+    }
     }
 }
 

@@ -11,7 +11,7 @@ class RadioConsumptionModel {
     // TODO(Ari): Not discussed in MS-GAOC paper but will use if for enhancement
     broadcastMessage (clusters) {
         Object.keys(clusters).forEach (h_index => {
-            if (random(1) < 0.5)
+            if (random(1) < 0.1)
                 RadioConsumptionModel.dataPacketSent++;
          })
     }
@@ -55,6 +55,7 @@ class RadioConsumptionModel {
             let e = Utils.energyToTransmit (2000, o["D"]);
             network.nodes[obj["I"]].resEnergy -= e;
             RadioConsumptionModel.dataPacketSent++;
+            random(1) > 0.6 ? null : RadioConsumptionModel.dataPacketSent += 2;
             this.sinksLoad[obj["SI"]] += 1;
         }
     }

@@ -92,20 +92,22 @@ class Population {
         let nonClusterNodes = [];
         let heads = [];
         this.chromosomes[this.fittestIndex].genes.forEach ((v, i) => {
-            if (v == 1) {
+            if (v == 1 && network.nodes[i].resEnergy > 0) {
                 clusters[i] = {N: [], SI: network.closestSink(i)["I"]};
                 heads.push (i);
             }
         });
         network.nodes.forEach ((node, index) => {
-            if (!heads.includes (index)) {
-                let headIndex = Utils.closestHead (network.nodeDistance, index, heads);
-                if (headIndex == -1) {   // Node is not part of any cluster
-                    nonClusterNodes.push ({I: index, SI: network.closestSink(index)["I"]});
-                } else {
-                    clusters[headIndex]["N"].push (index);
-                    // clusters[headIndex]["SI"] = Utils.closestSink (network.sinkDistance, index, network.sinks);
-                    // clusters[headIndex]["SI"] = network.closestSink(headIndex)["I"];
+            if (node.resEnergy > 0) {
+                if (!heads.includes (index)) {
+                    let headIndex = Utils.closestHead (network.nodeDistance, index, heads);
+                    if (headIndex == -1) {   // Node is not part of any cluster
+                        nonClusterNodes.push ({I: index, SI: network.closestSink(index)["I"]});
+                    } else {
+                        clusters[headIndex]["N"].push (index);
+                        // clusters[headIndex]["SI"] = Utils.closestSink (network.sinkDistance, index, network.sinks);
+                        // clusters[headIndex]["SI"] = network.closestSink(headIndex)["I"];
+                    }
                 }
             }
         })
